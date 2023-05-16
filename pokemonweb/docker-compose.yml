@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  front_end:
+    build:
+      context: .
+      dockerfile: ./front_end/docker/Dockerfile
+    volumes:
+      - ./front_end/src:/front_end/src
+      - ./front_end/public:/front_end/public
+    restart: always
+    ports:
+      - ${CLIENT_PUBLIC_PORT}:4000
+
+  back_end:
+    build:
+      context: .
+      dockerfile: ./back_end/docker/Dockerfile
+    volumes:
+      - ./back_end/src:/back_end/src
+    restart: always
+    ports:
+      - ${SERVER_PUBLIC_PORT}:3000
+
+  # postgres:
+  #   image: postgres:alpine
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_PUBLIC_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PUBLIC_PASSWORD}
+  #     PGDATA: /data/postgres
+  #   volumes:
+  #     - postgres:/data/postgres
+  #   ports:
+  #     - "${POSTGRES_PUBLIC_PORT}:5432"
+  #   restart: unless-stopped
+
+# volumes:
+#   postgres:
